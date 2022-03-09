@@ -3,7 +3,8 @@ import numpy as np
 import sys
 import os
 
-sys.path.append(os.path.realpath('D:/Coding/Image Processing'))
+# Replace with your current working directory
+sys.path.append(os.path.realpath('D:/Coding/Image Processing/convolution'))
 
 
 def show(title, img_path):
@@ -58,6 +59,17 @@ def convolve2D(image, kernel, padding=0, strides=1):
 
     return output
 
+avgKernel = np.array([
+        [1, 2, 1],
+        [2, 4, 2],
+        [1, 2, 1]])
+
+avgKernel = np.divide(avgKernel, 16)
+
+highPassKernel = np.array([
+        [-1, -1, -1],
+        [-1, 8, -1],
+        [-1, -1, -1]])
 
 def gaussian_filter():
     img = cv.imread("assets/ballon-400x300.jpeg", cv.IMREAD_COLOR)
@@ -73,11 +85,8 @@ def gaussian_filter():
 
 
 
-    kernel = np.array([
-        [1, 2, 1],
-        [2, 4, 2],
-        [1, 2, 1]])
-    kernel = np.divide(kernel, 16)
+    # kernel = avgKernel
+    kernel = highPassKernel
 
     b_chan = convolve2D(B, kernel)
     g_chan = convolve2D(G, kernel)
